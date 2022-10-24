@@ -1,26 +1,39 @@
 package com.supremecorp.explorecali.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
+@Document
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class TourRating {
-    @EmbeddedId
-    private TourRatingPk pk;
+    @Id
+    private String id;
+    private String tourId;
 
-    @Column(nullable = false)
+    @NotNull
+    private Integer customerId;
+
+    @Min(0)
+    @Max(5)
     private Integer score;
 
-    @Column
+    @Size(max = 255)
     private String comment;
+
+    public TourRating(String tourId, Integer customerId, Integer score, String comment) {
+        this.tourId = tourId;
+        this.customerId = customerId;
+        this.score = score;
+        this.comment = comment;
+    }
 }

@@ -3,19 +3,26 @@ package com.supremecorp.explorecali.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
+@Document
 @Getter
 @Setter
 @AllArgsConstructor
 public class TourPackage {
     @Id
     private String code;
-    @Column
-    private  String name;
-    protected TourPackage() {}
+    private String name;
+
+    protected TourPackage() {
+    }
+
+    @Override
+    public String toString() {
+        return "TourPackage{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
