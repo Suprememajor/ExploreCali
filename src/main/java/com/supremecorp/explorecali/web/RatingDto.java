@@ -1,5 +1,6 @@
 package com.supremecorp.explorecali.web;
 
+import com.supremecorp.explorecali.domain.TourRating;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,10 @@ public class RatingDto {
 
     @NotNull
     private Integer customerId;
+
+    public RatingDto(TourRating tourRating) {
+        this.score = tourRating.getScore();
+        this.comment = tourRating.getComment();
+        this.customerId = tourRating.getPk().getCustomerId();
+    }
 }

@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -27,6 +29,22 @@ public class TourRatingController {
                 ratingDto.getScore(), ratingDto.getComment()));
     }
 
+    @GetMapping
+    public List<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId) {
+        verifyTour(tourId);
+        return tourRatingRepository.findByPkTourId(tourId)
+                .stream().map(RatingDto::new)
+                .toList();
+    }
+
+
+    @GetMapping(path = "/average")
+    public Map<String, Double> getAverage(@PathVariable(value = "tourId") int tourId) {
+        verifyTour(tourId);
+        return Map.of("average", tourRatingRepository.findByPkTourId(tourId)
+                .stream().mapToInt(TourRating::getScore).average()
+                .orElseThrow(() -> new NoSuchElementException("Tour has no Ratings")));
+    }
     private Tour verifyTour(Integer tourId) throws NoSuchElementException {
         return tourRepository.findById(tourId)
                 .orElseThrow(() -> new NoSuchElementException("Tour with id: '" + tourId + "' does not exist"));
