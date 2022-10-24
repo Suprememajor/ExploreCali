@@ -66,6 +66,12 @@ public class TourRatingController {
         return new RatingDto(tourRatingRepository.save(rating));
     }
 
+    @DeleteMapping(path = "/{customerId}")
+    public void delete(@PathVariable(value = "tourId") int tourId, @PathVariable(value = "customerId") int customerId) {
+        TourRating rating = verifyTourRating(tourId, customerId);
+        tourRatingRepository.delete(rating);
+    }
+
     private Tour verifyTour(Integer tourId) throws NoSuchElementException {
         return tourRepository.findById(tourId)
                 .orElseThrow(() -> new NoSuchElementException("Tour with id: '" + tourId + "' does not exist"));
