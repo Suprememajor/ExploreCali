@@ -6,11 +6,13 @@ import com.supremecorp.explorecali.domain.TourRatingPk;
 import com.supremecorp.explorecali.repository.TourRatingRepository;
 import com.supremecorp.explorecali.repository.TourRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -30,11 +32,15 @@ public class TourRatingController {
     }
 
     @GetMapping
-    public List<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId) {
+    public Page<RatingDto> getAllRatingsForTour(@PathVariable(value = "tourId") int tourId,
+                                                Pageable pageable) {
         verifyTour(tourId);
-        return tourRatingRepository.findByPkTourId(tourId)
-                .stream().map(RatingDto::new)
-                .toList();
+        Page<TourRating> ratings = tourRatingRepository.findByPkTourId(tourId, pageable);
+        return new PageImpl<>(
+                ratings.get().map(RatingDto::new).toList(),
+                pageable,
+                ratings.getTotalElements()
+        );
     }
 
 
