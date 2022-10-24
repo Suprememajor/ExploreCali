@@ -17,7 +17,6 @@ public class TourService {
 
     /**
      * Create new tour
-     * @param id
      * @param title
      * @param description
      * @param blurb
@@ -25,18 +24,18 @@ public class TourService {
      * @param duration
      * @param bullets
      * @param keywords
-     * @param tourPackageCode
+     * @param tourPackageName
      * @param difficulty
      * @param region
      * @return newly created tour
      */
-    public Tour createTour(Integer id, String title, String description, String blurb, Integer price,
-                           String duration, String bullets, String keywords, String tourPackageCode,
+    public Tour createTour(String title, String description, String blurb, Integer price,
+                           String duration, String bullets, String keywords, String tourPackageName,
                            Difficulty difficulty, Region region) {
-        TourPackage tourPackage = tourPackageRepository.findById(tourPackageCode)
+        TourPackage tourPackage = tourPackageRepository.findByNameIgnoreCase(tourPackageName)
                 .orElseThrow(() -> new RuntimeException("Tour package does not exist."));
-        return new Tour(id, title, description, blurb, price, duration,
-                bullets, keywords, tourPackage, difficulty, region);
+        return tourRepository.save(new Tour(title, description, blurb, price, duration,
+                bullets, keywords, tourPackage, difficulty, region));
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.supremecorp.explorecali.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 public class Tour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +36,18 @@ public class Tour {
     private Region region;
 
     protected Tour() {}
+
+    public Tour(String title, String description, String blurb, Integer price, String duration, String bullets,
+                String keywords, TourPackage tourPackage, Difficulty difficulty, Region region) {
+        this.title = title;
+        this.description = description;
+        this.blurb = blurb;
+        this.price = price;
+        this.duration = duration;
+        this.bullets = bullets;
+        this.keywords = keywords;
+        this.tourPackage = tourPackage;
+        this.difficulty = difficulty;
+        this.region = region;
+    }
 }

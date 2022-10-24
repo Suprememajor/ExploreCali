@@ -1,7 +1,8 @@
 package com.supremecorp.explorecali.domain;
 
 public enum Region {
-    Buea("Buea"), Douala("Douala"), Kumba("Kumba"), Limbe("Limbe");
+    SOUTH_WEST("South West"), NORTH_WEST("North West"),
+    LITTORAL("Littoral"), CENTER("Center");
     private String label;
     private Region(String label) {
         this.label = label;
